@@ -15,9 +15,9 @@ const Home = (props) => {
     setUsername(input);
   };
 
-  const displayData = (data) => {
-    props.dashboardHandler(data);
-    navigate("/dashboard");
+  const displayData = (userData) => {
+    props.dashboardHandler(userData);
+    navigate("/dashboard", { state: { id: userData.data.user._id } });
   };
 
   useEffect(() => {
@@ -32,8 +32,12 @@ const Home = (props) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ username: username }),
-          });
-          navigate("/dashboard");
+          })
+            .then((response) => response.json())
+            .then((userData) => {
+              props.dashboardHandler(userData);
+              navigate("/dashboard", { state: { id: userData.data.user._id } }); // passing new user id to dashboard
+            });
         } else {
           displayData(userData);
         }
