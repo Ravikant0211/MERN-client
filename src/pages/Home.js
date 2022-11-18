@@ -33,6 +33,7 @@ const Home = (props) => {
             },
             body: JSON.stringify({ username: username }),
           });
+          navigate("/dashboard");
         } else {
           displayData(userData);
         }
